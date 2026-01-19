@@ -1,0 +1,20 @@
+groups:
+- name: device-alerts
+  rules:
+  - alert: DeviceOffline
+    expr: absent_over_time(device_heartbeat[2m])
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Device is offline"
+      description: "No heartbeat received for more than 2 minutes."
+
+  - alert: DeviceBatteryCritical
+    expr: battery_level_percent < 20
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Device battery critical"
+      description: "Battery level below 20%."
